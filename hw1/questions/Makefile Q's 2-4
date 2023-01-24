@@ -16,6 +16,8 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
+	
+all: compound_interst Stats from Paragraph Find and Replace
 
 compound_interest: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)

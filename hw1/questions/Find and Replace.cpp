@@ -1,17 +1,15 @@
+// Finds word in paragraph
+//Yasmeen Dao 1/24/23
 #include <iostream>
 using namespace std;
-
-// Write a program that reads a paragraph from the keyboard and then finds a
-// given word. User may provide that word from keyboard (which should have
-///// length of 2 or more characters).////////
 
 int main() {
   int i, find_word_count = 0;
   string par;
   string user_word;
   // position word is found
-  int pos;
-
+  size_t pos = 0;
+  int count = 0;
   cout << "Enter paragraph: ";
   getline(cin, par);
   cout << par << endl;
@@ -22,27 +20,29 @@ int main() {
   cin >> user_word;
   cout << user_word << endl;
 
-  for (i = 0; par[i] != '\0'; ++i) {
-    if (par.compare(user_word) == 0) {
-      // find word
-      find_word_count += 1;
-      // find position
-      pos = par.find(user_word);
-      cout << user_word << " found at position " << pos << endl;
-    }
-  } // end of for
-  cout << user_word << " found " << find_word_count << " times" << endl;
-
-  // Replace the word you were searching for with a new user-provided word and
-  // print the new
-  //  paragraph neatly.
+  // validate user word
+  if (user_word.length() < 2) {
+    cout << "enter another word : " << endl;
+    cin >> user_word;
+  }
+  while ((pos = par.find(user_word, pos)) != string::npos) {
+    // get position that word is at
+    cout << "Word found at position: " << pos << endl;
+    pos += user_word.length();
+    // count number of times word is found
+    count++;
+  }
+  cout << "Word found " << count << " times" << endl;
 
   // get new user word
   string new_word;
 
   cout << "Enter another word ";
   cin >> new_word;
-  par.replace(par.find(user_word), user_word.length(), new_word);
+  // loop for every word that matches
+  while ((pos = par.find(user_word)) != string::npos) {
+    par.replace(pos, user_word.length(), new_word);
+  }
   // print out paragraph with new word
   cout << par << endl;
 

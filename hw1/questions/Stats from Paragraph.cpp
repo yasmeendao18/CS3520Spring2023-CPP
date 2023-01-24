@@ -1,4 +1,5 @@
-// Stats from a paragraph
+// Calculates Stats from Paragraph
+//Yasmeen Dao 1/24/23
 
 #include <iostream>
 #include <sstream>
@@ -8,6 +9,7 @@
 using namespace std;
 int main() {
 
+  // variables
   int i, word_count = 1;
   string par;
   int consonant = 0;
@@ -16,17 +18,23 @@ int main() {
   int punct = 0;
   int vowel_start = 0;
   bool vow_bool = true;
+  int user_num; // length of word
+  int len_greater = 0;
+  int word_length = 0;
+  int ran_num;
+  int len_smaller = 0;
+  int smaller_word_length = 0;
 
   // get user paragraph
   cout << "Enter paragraph: ";
   getline(cin, par);
   // cout << par << endl;
 
-  // Print number of total words
+  /// Print number of total words///
   for (i = 0; par[i] != '\0'; ++i) {
     // check first word
     if (i == 0) {
-      // if the first word is a vowel
+      /// if the first word is a vowel///
       if (par[i] == 'a' || par[i] == 'e' || par[i] == 'i' || par[i] == 'o' ||
           par[i] == 'u' || par[i] == 'A' || par[i] == 'E' || par[i] == 'I' ||
           par[i] == 'O' || par[i] == 'U') {
@@ -44,13 +52,13 @@ int main() {
         vowel_start++; // add to count
       }
     }
-    // print number of words that have punctuation attached
+    /// print number of words that have punctuation///
     else if (par[i] == '!' || par[i] == '$' || par[i] == '.' || par[i] == ',' ||
              par[i] == ';' || par[i] == '"' || par[i] == '?' ||
              par[i] == '\'') {
       punct += 1;
     }
-    // print number of vowels and consonants
+    /// print number of vowels and consonants///
     else if (par[i] == 'a' || par[i] == 'e' || par[i] == 'i' || par[i] == 'o' ||
              par[i] == 'u' || par[i] == 'A' || par[i] == 'E' || par[i] == 'I' ||
              par[i] == 'O' || par[i] == 'U') {
@@ -65,68 +73,61 @@ int main() {
 
   } // end of for
 
-  // print
-  cout << "there are " << word_count << " words in paragraph" << endl;
+  // print outputs
+  cout << "There are " << word_count << " words in paragraph" << endl;
   cout << vowel << " vowels" << endl;
   cout << consonant << " consonants" << endl;
   cout << punct << " word(s) with punctuation" << endl;
   cout << vowel_start << " word(s) that start with vowel" << endl;
 
-  // Now, prompt the user to enter a number (i.e., length of a word) and then
-  // calculate {and   // print} the following:Number of words with length
-  // GREATER than the user provided length.
-  /*
-    int num; // length of word
-    int len_greater = 0;
-    int wordlength = 0;
-    // ask user to enter number
-    cout << "Enter a number: ";
-    cin >> num;
-    for (i = 0; par[i] != '\0'; ++i) {
-      if (par[i] == ' ') {
-        if (wordlength > num) {
-          len_greater++;
-        }
-        wordlength = 0;
-      } else {
-        wordlength++;
-      }
-    }
-    if (wordlength > num) {
-      len_greater++;
-    }
-
-    // print
-    cout << len_greater << " words greater than " << num << endl;
-  */
-  // Now, update your program to automatically select a random number between
-  // [6-10] and print:Number of words with length smaller than the random
-  // length.
-  int ran_num;
-  cout << ran_num << endl;
-  int len_smaller;
-  int wordslength = 0;
-  ran_num = 6 + (rand() % 10;
-  cout << ran_num;
+  /// words with length GREATER than the user provided///
+  // ask user to enter number
+  cout << "Enter a number: ";
+  cin >> user_num;
+  // loop through characters
   for (i = 0; par[i] != '\0'; ++i) {
     if (par[i] == ' ') {
-      if (wordslength < ran_num) {
-        len_smaller++;
+      // check if wordlength is greater than user number
+      if (word_length > user_num) {
+        len_greater++;
       }
-      wordslength = 0;
+      word_length = 0;
     } else {
-      wordslength++;
+      word_length++;
     }
   }
-  if (wordslength < ran_num) {
+  if (word_length > user_num) {
+    // checks next word to see if length is larger
+    len_greater++;
+  }
+  cout << len_greater << " words greater than " << user_num << endl;
+
+  /// Number of words with length smaller than the random///
+  srand((int)time(0));
+  // generate random numbers 6-10
+  ran_num = 6 + (rand() % 5);
+  cout << "Random number is " << ran_num << endl;
+  // cout << ran_num << endl;
+  //  loop through characters
+  for (i = 0; par[i] != '\0'; ++i) {
+    if (par[i] == ' ') {
+      if (smaller_word_length < ran_num) {
+        len_smaller++;
+      }
+      smaller_word_length = 0;
+    } else {
+      smaller_word_length++;
+    }
+  }
+  if (smaller_word_length < ran_num) {
+    // checks next word to see if length is smaller
     len_smaller++;
   }
-  // print
   cout << len_smaller << " words smaller than " << ran_num << endl;
-
   return 0;
 
 } // end of main
 
 // Didn't make functions but next time would create function that determined if
-// letter was a vowel
+// letter was a vowel and checked for punctuation
+// would also break up each separate task into a function
