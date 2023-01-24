@@ -9,32 +9,32 @@ LIBS=-lncurses
 _DEPS = 
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ1 = file1.o
-_OBJ2 = file2.o
-_OBJ3 = file3.o
+_OBJ1 = file1debug.o
+_OBJ2 = file2debug.o
+_OBJ3 = file3debug.o
 
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-all: file1 file2 file3
+all: file1debug file2debug file3debug
 
 	
-file1: $(_OBJ1)
+file1debug: $(_OBJ1)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
-file2: $(_OBJ2)
+file2debug: $(_OBJ2)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
-file3: $(_OBJ3)
+file3debug: $(_OBJ3)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean
 
 clean:
 	rm -f *~ core $(INCDIR)/*~ 
-	rm -f file1
-	rm -f file2
-	rm -f file3
+	rm -f file1debug
+	rm -f file2debug
+	rm -f file3debug
 	rm -f *.o
 
 etags: 
