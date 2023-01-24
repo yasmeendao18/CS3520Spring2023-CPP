@@ -1,0 +1,39 @@
+IDIR =../include
+CC=g++
+CFLAGS= -I$(IDIR) -g -std=c++11 -O0
+
+ODIR=.
+
+LIBS=-lncurses
+
+_DEPS = 
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+
+_OBJ = compound_interest.o
+_OBJ = Stats from Paragraph.o
+_OBJ = Find and Replace.o
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+$(ODIR)/%.o: %.cpp $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+compound_interest: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+Stats from Paragraph: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+Find and Replace: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+.PHONY: clean
+
+clean:
+	rm -f *~ core $(INCDIR)/*~ 
+	rm -f compound_interest
+	rm -f Find and Replace
+	rm -f Stats from Paragraph
+	rm -f *.o
+
+etags: 
+	find . -type f -iname "*.[ch]" | xargs etags --append    
