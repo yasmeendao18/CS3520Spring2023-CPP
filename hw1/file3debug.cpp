@@ -25,21 +25,22 @@ int main(void) {
   {
     cout << num << " is not prime or composite";
     // FIX: added semi-colon after cout statement
-  }
-  for (i = 2; i < num; i++)
-  // FIX: added semi-colon after num instead of comma
-  {
-    if (num % i == 0) {
-      factor_found = true;
-      // FIX: lower-case boolean true
-      cout << "is a composite number\n";
-      break;
+  } else {
+    for (i = 2; i < num; i++)
+    // FIX: added semi-colon after num instead of comma
+    {
+      if (num % i == 0) {
+        factor_found = true;
+        // FIX: lower-case boolean true
+        cout << "is a composite number\n";
+        break;
+      }
     }
-  }
-  if (not factor_found)
-  // FIX: added parantheses around not factor_found
-  {
-    cout << "is a prime number\n";
-    // FIX: added semi-colon after cout statement
+    if (not factor_found)
+    // FIX: added parantheses around not factor_found
+    {
+      cout << "is a prime number\n";
+      // FIX: added semi-colon after cout statement
+    }
   }
 }
