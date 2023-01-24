@@ -12,9 +12,9 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 _OBJ1 = file1debug.o
 _OBJ2 = file2debug.o
 _OBJ3 = file3debug.o
-_OBJ3 = compound_interest.o
-_OBJ3 = stats_from_paragraph.o
-_OBJ3 = find_and_replace.o
+_OBJ4 = compound_interest.o
+_OBJ5 = stats_from_paragraph.o
+_OBJ6 = find_and_replace.o
 
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -31,13 +31,13 @@ file2debug: $(_OBJ2)
 file3debug: $(_OBJ3)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
-compound_interest: $(_OBJ3)
+compound_interest: $(_OBJ4)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
-stats_from_paragraph: $(_OBJ3)
+stats_from_paragraph: $(_OBJ5)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
-find_and_replace: $(_OBJ3)
+find_and_replace: $(_OBJ6)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean
