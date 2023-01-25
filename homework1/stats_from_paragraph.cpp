@@ -73,7 +73,7 @@ int main() {
 
   } // end of for
 
-  // print outputs
+  // print outputs for first part
   cout << "There are " << word_count << " words in paragraph" << endl;
   cout << vowel << " vowels" << endl;
   cout << consonant << " consonants" << endl;
