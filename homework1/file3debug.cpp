@@ -1,3 +1,5 @@
+//debug code 3
+//Yasmeen Dao 1/24/23
 /*  This program should determine if a number is a prime or composite number
     The program should ask user for a number 'num'
     If 'num' is 0 or 1, print "num is not prime or composite"

@@ -1,3 +1,6 @@
+//debug code 2
+//Yasmeen Dao 1/24/23
+
 // Automatic dialing machine
 // Delivers a sales message
 /* Needs to print all possible combinations of areacode and exchangecode with
