@@ -1,4 +1,4 @@
-// Finds word in paragraph
+// Finds word in paragraph and replaces
 // Yasmeen Dao 1/24/23
 
 #include <iostream>
