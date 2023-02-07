@@ -10,16 +10,25 @@ _DEPS =
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 _OBJ1 = Rolling_dice.o
+_OBJ2 = Maze_generator.o
+_OBJ3 = Phishing_scanner.o
 
 
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-all: Rolling_dice
+all: Rolling_dice Maze_generator Phishing_scanner
 
 	
 Rolling_dice: $(_OBJ1)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+Maze_generator: $(_OBJ2)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+Phishing_scanner: $(_OBJ3)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
 
 
 .PHONY: clean
@@ -27,6 +36,8 @@ Rolling_dice: $(_OBJ1)
 clean:
 	rm -f *~ core $(INCDIR)/*~ 
 	rm -f Rolling_dice
+	rm -f Maze_generator
+	rm -f Phishing_scanner
 	rm -f *.o
 
 etags: 
