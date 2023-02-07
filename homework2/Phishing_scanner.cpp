@@ -61,11 +61,45 @@ int main()
   string words; 
   
   // vector for phishing words
-  std::vector<string> phish_words {"free", "Facebook", "high", "less", "ssn", "verify",     "account","secure","password","Google","name","verify","alert","immediate","password","attention","action","requires","urgent","number","expire","confirm","Chase","payPal","Microsoft","miss","update","now","protected","fraud"};
+  //std::vector<string> phish_words {"free", "Facebook", "high", "less", "ssn", "verify","account","secure","password","Google","name","verify","alert","immediate","password","attention","action","requires","urgent","number","expire","confirm","Chase","payPal","Microsoft","miss","update","now","protected","fraud"};
 
+
+const char* args[] = {"free", "Facebook", "high", "less", "ssn", "verify","account","secure","password","Google","name","verify","alert","immediate","password","attention","action","requires","urgent","number","expire","confirm","Chase","payPal","Microsoft","miss","update","now","protected","fraud"};
+std::vector<std::string> phish_words(args, args + sizeof(args)/sizeof(args[0]));
+ 
   // vector for points
-  std::vector<int> points {2,1,2,3,1,2,3,3,2,1,3,2,3,3,2,3,3,3,3,2,2,1,1,1,1,2,1,2,3,2};
-
+  //std::vector<int> points {2,1,2,3,1,2,3,3,2,1,3,2,3,3,2,3,3,3,3,2,2,1,1,1,1,2,1,2,3,2};
+vector<int> points;
+points.push_back(2);
+points.push_back(1);
+points.push_back(2);
+points.push_back(3);
+points.push_back(1);
+points.push_back(2);
+points.push_back(3);
+points.push_back(3);
+points.push_back(2);
+points.push_back(1);
+points.push_back(3);
+points.push_back(2);
+points.push_back(3);
+points.push_back(3);
+points.push_back(2);
+points.push_back(3);
+points.push_back(3);
+points.push_back(3);
+points.push_back(3);
+points.push_back(2);
+points.push_back(2);
+points.push_back(1);
+points.push_back(1);
+points.push_back(1);
+points.push_back(1);
+points.push_back(2);
+points.push_back(1);
+points.push_back(2);
+points.push_back(3);
+points.push_back(2);
   // store words from file in vector
   std::vector< string > file_words;
   std::vector< string > found_phishword;
