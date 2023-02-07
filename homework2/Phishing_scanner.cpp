@@ -1,3 +1,6 @@
+// Yasmeen Dao
+// 2/7/23 Finds phishing words in text
+
 #include <iostream>
 #include <sstream>
 #include <time.h>

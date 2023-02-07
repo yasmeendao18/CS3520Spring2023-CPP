@@ -1,3 +1,6 @@
+// Yasmeen Dao
+// 2/7/23 Generates and prints maze of random size
+
 #include <cstdlib>
 #include <fstream>
 #include <iostream>

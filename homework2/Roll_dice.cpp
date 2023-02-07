@@ -1,3 +1,5 @@
+// Yasmeen Dao
+// 2/7/23 Rolls dice and counts frequency of roll
 #include <iostream>
 #include <sstream>
 #include <stdio.h>
