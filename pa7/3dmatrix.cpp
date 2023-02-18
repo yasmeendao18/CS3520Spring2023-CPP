@@ -67,8 +67,7 @@ void update_3d(double ***matrix, int size)
     }
 }
 
-//update as needed. 1 'for' loop only with 1 iterator to print all values with addresses
-//must not be able to update the array.
+//update as needed. 1 'for' loop only with 1 iterator to print all values with addresses must not be able to update the array.
 //Share any observations.
 void display_1d(double ***matrix, int size) // change to ***matrix
 { //matrix, other args
@@ -86,5 +85,7 @@ void display_1d(double ***matrix, int size) // change to ***matrix
     // display address
     cout<<"Address is: " << *(*(matrix+b)+c)+a <<" Value is: "<< matrix[a][b][c]<<endl;
   } //end of for
+
+  // randomly generated number is the value
 
 } // end of display_1d method
