@@ -4,6 +4,7 @@
 // display method must not be able to modify array elements (update the code as needed)
 // display method must use a single loop/iterator to print the entire array with addresses
 // display cannot use nested loops
+// 
 
 #include <iostream>
 #include<stdlib.h>
@@ -60,7 +61,7 @@ void update_3d(double ***matrix, int size)
 		    {    
           // use random number generator
           matrix[i][j][k] = rand() % 30; 
-          cin>>matrix[i][j][k];
+          //cin>>matrix[i][j][k];
 	      }
       }
     }
@@ -71,13 +72,18 @@ void update_3d(double ***matrix, int size)
 //Share any observations.
 void display_1d(double ***matrix, int size) // change to ***matrix
 { //matrix, other args
-	
+
+  // loop through
 	for (int i = 0; i < pow(size,3); i++) 
   {
+    
       int a = i%size;
+      // use power of
       int b = i/pow(size,2);
       int c = (i-(b*pow(size,2)))/size;
-      cout<<"matrix["<<b<<"]["<<c<<"] ["<<a<<"]"<<endl;
+      // display matrix
+      cout<<"matrix["<<b<<"]["<<c<<"]["<<a<<"]"<<endl;
+    // display address
     cout<<"Address is: " << *(*(matrix+b)+c)+a <<" Value is: "<< matrix[a][b][c]<<endl;
   } //end of for
 
