@@ -26,6 +26,7 @@
 *
 * Additional copyrights may follow
 */
+// #include <iostream>
 #include <ncurses.h>
 #include <cstdio>
 #include <cstdlib>
@@ -35,6 +36,7 @@
 #include "game_window.hpp"
 #include "key.hpp"
 #include "game.hpp"
+// using namespace std; 
 void generate_points(int *food_x, int *food_y, int width, int height, int x_offset, int y_offset){
     *food_x = rand() % width + x_offset;
     *food_y = rand() % height + y_offset;
@@ -101,7 +103,9 @@ void game(){
             ch = get_char();
             
             /* Write your code here */
-
+            mvprintw(10,20,"Welcome to the snake game. Use the arrrow keys to move the snake and collect food. The more food that is collected, the more points are earned and the larger the snake gets!");
+            mvprintw(10,20,"Press s to start: ", ch);
+            getch();
 			// Draw everything on the screen
             clear();
             mvprintw(20,20, "Key entered: %c", ch);

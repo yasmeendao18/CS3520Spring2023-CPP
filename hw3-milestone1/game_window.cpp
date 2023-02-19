@@ -36,6 +36,8 @@
 #include <ncurses.h>
 #include "game_window.hpp"
 
+
+
 gamewindow_t *init_GameWindow(int upper_left_x, int upper_left_y, int width, int height)
 {
 	gamewindow_t *g;
