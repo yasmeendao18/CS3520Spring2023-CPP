@@ -103,9 +103,14 @@ void game(){
             ch = get_char();
             
             /* Write your code here */
-            mvprintw(10,20,"Welcome to the snake game. Use the arrrow keys to move the snake and collect food. The more food that is collected, the more points are earned and the larger the snake gets!");
-            mvprintw(10,20,"Press s to start: ", ch);
-            getch();
+           if (ch =='q'|| ch =='Q')
+           {
+                state = DEAD; 
+           }
+           else if (ch == 'p' || ch == 'P')
+           {
+                state = PAUSE; 
+           }
 			// Draw everything on the screen
             clear();
             mvprintw(20,20, "Key entered: %c", ch);
@@ -114,8 +119,17 @@ void game(){
             draw_food(foods);
             break;
 
+        case PAUSE:
+            ch = get_char();
+            if (ch == 'p' || ch == 'P')
+            {
+                state = ALIVE; 
+            } 
+            break; 
         case DEAD:
             endwin();
+            state = EXIT;
+            return; 
             break;
         }
         refresh();

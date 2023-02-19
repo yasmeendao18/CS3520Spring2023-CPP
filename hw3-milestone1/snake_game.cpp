@@ -32,7 +32,20 @@
 #include <ncurses.h>
 
 int main(void){
+
+    // // init screen
+    initscr();
     printf("thuoeou");
+    char ch; 
+    mvprintw(10,20,"Welcome to the snake game. Use the arrrow keys to move the snake and collect food. The more food that is collected, the more points are earned and the larger the snake gets!");
+    mvprintw(20,20,"Press s to start: "); 
+    refresh(); 
+    noecho(); 
+    ch = getch(); 
+    while (ch != 's')
+    {
+        ch = getch(); 
+    }
     game();
     printf("tuenao");
     return(0);
