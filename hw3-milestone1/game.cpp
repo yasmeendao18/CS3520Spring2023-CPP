@@ -51,6 +51,7 @@ void game(){
 
     const int height = 30; 
     const int width = 70;
+    int direction = 1;
     char ch;
 
     struct timespec timeret;
@@ -68,6 +69,7 @@ void game(){
             keypad(stdscr, TRUE); // making keys work
             curs_set(0); // hide cursor
             timeout(100);
+            
 
             // Setting height and width of the board
             x_offset = (x_max / 2) - (width / 2);
@@ -96,13 +98,42 @@ void game(){
                 new_food = create_food(food_x, food_y, type);
                 add_new_food(foods, new_food);
             }
+            // direction = rand() % 4; 
             state = ALIVE;
             break;
 
         case ALIVE:
             ch = get_char();
+
+            if(food_exists(foods, snake->x, snake->y))
+            {
+                if(food_type(foods, snake->x, snake->y)==0)
+                {
+                    Snake* end = snake;
+                    while(end->next)
+                        end = end->next;
+                    end->next = create_tail(end->x, end->y); 
+                }
+                else
+                {
+                    remove_tail(snake); 
+                }
+            }
             
             /* Write your code here */
+        if(ch == LEFT || ch == RIGHT || ch == UP || ch == DOWN)
+        {
+            if((direction == RIGHT && ch != LEFT) 
+            ||(direction == LEFT && ch != RIGHT) 
+            ||(direction == UP && ch != DOWN) 
+            ||(direction == DOWN && ch != UP))
+            {
+                direction = ch;
+            }
+        }
+            snake = move_snake(snake, direction);
+
+
            if (ch =='q'|| ch =='Q')
            {
                 state = DEAD; 
