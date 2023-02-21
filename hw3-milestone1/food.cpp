@@ -74,7 +74,7 @@ void add_new_food(Food* foods, Food* new_food){
 enum Type food_type(Food* foods, int x, int y){
     //Implement the code to return the type of the food 
     //present at position (x, y)
-    //  Food* temp = foods;
+    Food* temp = foods;
     while(temp)
     {
         if(temp->x == x && temp->y == y)
