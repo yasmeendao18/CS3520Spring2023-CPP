@@ -52,11 +52,14 @@ void game(){
     const int height = 30; 
     const int width = 70;
     int direction = 1;
+    int points = 0;
     char ch;
 
     struct timespec timeret;
     timeret.tv_sec = 0;
     timeret.tv_nsec = 999999999/4;
+
+    mvprintw(5,5,"Points", points); 
 
     while(state != EXIT){
         switch(state){
@@ -113,10 +116,12 @@ void game(){
                     while(end->next)
                         end = end->next;
                     end->next = create_tail(end->x, end->y); 
+                    points+=20; 
                 }
                 else
                 {
                     remove_tail(snake); 
+                    points-=10; 
                 }
             }
             
