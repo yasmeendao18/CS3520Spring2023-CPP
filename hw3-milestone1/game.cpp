@@ -40,7 +40,7 @@ void generate_points(int *food_x, int *food_y, int width, int height, int x_offs
     *food_y = rand() % height + y_offset;
 }
 void game(){
-    enum State state = INIT; // Set the initial state
+    enum State state = START; // Set the initial state
     static int x_max, y_max; //Max screen size variables
     static int x_offset, y_offset; // distance between the top left corner of your screen and the start of the board
     gamewindow_t *window; // Name of the board
