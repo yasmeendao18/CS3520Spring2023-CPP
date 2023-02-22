@@ -73,7 +73,23 @@ void add_new_food(Food* foods, Food* new_food){
 
 enum Type food_type(Food* foods, int x, int y){
     //Implement the code to return the type of the food 
-    //present at position (x, y)	
+    //present at position (x, y)
+    Food* temp = foods;
+    while(temp)
+    {
+        if(temp->x == x && temp->y == y)
+        {
+            if(temp-> type == 'O')
+            {
+                return Increase; 
+            }
+            else
+            {
+                return Decrease; 
+            }
+        }   
+        temp = temp->next;
+    }
 	
 }
 Food* remove_eaten_food(Food* foods, int x, int y){

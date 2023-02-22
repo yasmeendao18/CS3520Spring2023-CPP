@@ -100,6 +100,23 @@ void game(){
 
         case ALIVE:
             ch = get_char();
+
+              if(food_exists(foods, snake->x, snake->y))
+            {
+                if(food_type(foods, snake->x, snake->y)==Increase)
+                {
+                    Snake* end = snake;
+                    while(end->next)
+                        end = end->next;
+                    end->next = create_tail(end->x, end->y); 
+                    //points+=20; 
+                }
+                else
+                {
+                    remove_tail(snake); 
+                    //points-=10; 
+                }
+            }
             
             /* Write your code here */
         if(ch == LEFT || ch == RIGHT || ch == UP || ch == DOWN)
