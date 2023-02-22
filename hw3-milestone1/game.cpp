@@ -36,8 +36,8 @@
 #include "key.hpp"
 #include "game.hpp"
 void generate_points(int *food_x, int *food_y, int width, int height, int x_offset, int y_offset){
-    *food_x = rand() % width + x_offset;
-    *food_y = rand() % height + y_offset;
+    *food_x = rand() % width + x_offset+1;
+    *food_y = rand() % height + y_offset+1;
 }
 void game(){
     enum State state = START; // Set the initial state
@@ -49,9 +49,8 @@ void game(){
 
     const int height = 30; 
     const int width = 70;
-    int direction = 1;
+    int direction = rand() % 4;
     int points = 0;
-    int max_points = 0; 
     char ch;
 
     struct timespec timeret;
@@ -60,8 +59,24 @@ void game(){
 
     while(state != EXIT){
         switch(state){
+	case START: 
+	    initscr();
+	    mvprintw(10,20,"Welcome to the snake game.");
+            mvprintw(11,20, "Use the arrrow keys to move the snake and collect food.");
+            mvprintw(12,20,"If the snake eats Os it grows and points increase.");
+            mvprintw(13,20,"Press s to start: ");
+	    refresh(); 
+            keypad(stdscr, TRUE); // making keys work
+            curs_set(0); // hide cursor
+	    ch = getch();
+	    while(ch != 's'){
+		ch = getch();
+	    }
+	    state = INIT;
+	    clear();
+            break;	
         case INIT:
-            initscr();
+            //initscr();
             start_color();
             nodelay(stdscr, TRUE); //Dont wait for char
             noecho(); // Don't echo input chars
