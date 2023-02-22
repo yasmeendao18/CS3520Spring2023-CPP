@@ -118,6 +118,11 @@ void game(){
                 }
                 // call remove food function
                 foods = remove_eaten_food(foods,snake->x,snake->y); 
+                //Generate 1 food
+                generate_points(&food_x, &food_y, width, height, x_offset, y_offset);
+                type = (rand() > RAND_MAX/2) ? Increase : Decrease; // Randomly deciding type of food
+                new_food = create_food(food_x, food_y, type);
+                add_new_food(foods,new_food); 
             }
             
             /* Write your code here */
