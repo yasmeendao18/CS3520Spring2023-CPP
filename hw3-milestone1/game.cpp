@@ -115,22 +115,23 @@ void game(){
                     while(end->next)
                         end = end->next;
                     end->next = create_tail(end->x, end->y); 
-                    points+=20; 
-                    // check if speed is incremented
-                    if ((points > max_points) && (((points - max_points) / 100) > 0))
-                    {
-                        // update max_points 
-                        max_points = (points/100)*100;
-                        // //update speed
-                        //snake->speed = snake->speed * 1.5; 
-                        //timeret.tv_nsec = timeret.tv_nsec / snake->speed;
-                    }
+                    points+=20;
                 }
-                else
+                else if(points > 0)
                 {
                     remove_tail(snake); 
                     points-=10; 
+                }else if(points <= 0) {
+		    state = DEAD;
+		}
+		snake->speed = points/100;
+                if(snake->speed == 0){
+                    timeret.tv_nsec = 999999999/4;  
+                }else {
+                    float speed = snake->speed *1.5;  
+                    timeret.tv_nsec = (999999999/4) / speed;
                 }
+
                 // call remove food function
                 foods = remove_eaten_food(foods,snake->x,snake->y); 
                 //Generate 1 food
@@ -142,6 +143,13 @@ void game(){
             }
             
             /* Write your code here */
+	if(ch == 'q' || ch == 'Q') {
+                state = DEAD;
+        }
+        if(ch == 'p'|| ch =='P'){
+        	state = PAUSE;
+        }
+
         if(ch == LEFT || ch == RIGHT || ch == UP || ch == DOWN)
         {
             if((direction == RIGHT && ch != LEFT) 
@@ -162,9 +170,28 @@ void game(){
             // call score
             mvprintw(0,2, "Score: %d", points); 
             break;
-
+	case PAUSE:
+	    ch = get_char();
+	    if(ch == 'q' || ch == 'Q') {
+		state = DEAD;	
+	    }
+	    if(ch == 'p'|| ch =='P'){
+		state = ALIVE;
+	    }
+	    break;
         case DEAD:
             endwin();
+	    state = EXIT;
+	    while(snake->next){
+		snake = remove_tail(snake);
+	    }
+	    Food* temp;
+	    while(temp) {
+		temp = foods->next;
+		free(foods);
+	    }
+	    free(snake);
+	    return;
             break;
         }
         refresh();
