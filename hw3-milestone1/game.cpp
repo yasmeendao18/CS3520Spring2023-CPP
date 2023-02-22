@@ -26,7 +26,6 @@
 *
 * Additional copyrights may follow
 */
-// #include <iostream>
 #include <ncurses.h>
 #include <cstdio>
 #include <cstdlib>
@@ -36,7 +35,6 @@
 #include "game_window.hpp"
 #include "key.hpp"
 #include "game.hpp"
-// using namespace std; 
 void generate_points(int *food_x, int *food_y, int width, int height, int x_offset, int y_offset){
     *food_x = rand() % width + x_offset;
     *food_y = rand() % height + y_offset;
@@ -52,14 +50,11 @@ void game(){
     const int height = 30; 
     const int width = 70;
     int direction = 1;
-    int points = 0;
     char ch;
 
     struct timespec timeret;
     timeret.tv_sec = 0;
     timeret.tv_nsec = 999999999/4;
-
-    mvprintw(5,5,"Points", points); 
 
     while(state != EXIT){
         switch(state){
@@ -72,7 +67,6 @@ void game(){
             keypad(stdscr, TRUE); // making keys work
             curs_set(0); // hide cursor
             timeout(100);
-            
 
             // Setting height and width of the board
             x_offset = (x_max / 2) - (width / 2);
@@ -101,29 +95,11 @@ void game(){
                 new_food = create_food(food_x, food_y, type);
                 add_new_food(foods, new_food);
             }
-            // direction = rand() % 4; 
             state = ALIVE;
             break;
 
         case ALIVE:
             ch = get_char();
-
-            if(food_exists(foods, snake->x, snake->y))
-            {
-                if(food_type(foods, snake->x, snake->y)==0)
-                {
-                    Snake* end = snake;
-                    while(end->next)
-                        end = end->next;
-                    end->next = create_tail(end->x, end->y); 
-                    points+=20; 
-                }
-                else
-                {
-                    remove_tail(snake); 
-                    points-=10; 
-                }
-            }
             
             /* Write your code here */
         if(ch == LEFT || ch == RIGHT || ch == UP || ch == DOWN)
@@ -137,16 +113,6 @@ void game(){
             }
         }
             snake = move_snake(snake, direction);
-
-
-           if (ch =='q'|| ch =='Q')
-           {
-                state = DEAD; 
-           }
-           else if (ch == 'p' || ch == 'P')
-           {
-                state = PAUSE; 
-           }
 			// Draw everything on the screen
             clear();
             mvprintw(20,20, "Key entered: %c", ch);
@@ -155,17 +121,8 @@ void game(){
             draw_food(foods);
             break;
 
-        case PAUSE:
-            ch = get_char();
-            if (ch == 'p' || ch == 'P')
-            {
-                state = ALIVE; 
-            } 
-            break; 
         case DEAD:
             endwin();
-            state = EXIT;
-            return; 
             break;
         }
         refresh();
