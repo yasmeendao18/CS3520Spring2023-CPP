@@ -116,6 +116,8 @@ void game(){
                     remove_tail(snake); 
                     //points-=10; 
                 }
+                // call remove food function
+                foods = remove_eaten_food(foods,snake->x,snake->y); 
             }
             
             /* Write your code here */

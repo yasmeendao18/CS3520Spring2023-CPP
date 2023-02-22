@@ -96,6 +96,28 @@ Food* remove_eaten_food(Food* foods, int x, int y){
 	//Implement the code to remove food at position (x,y).
 	//Create a new linked list of type Food containing only the
 	//needed food and return this new list
+     Food* prev = nullptr; 
+     Food* newfoods = (Food*)malloc(sizeof(newfoods));
+     newfoods = foods; 
+    while(foods)
+    {
+        if(x == foods->x || y == foods->y)
+        {
+            if(prev == nullptr)
+            {
+                newfoods = foods->next; 
+            }
+            else{
+                prev->next = foods->next; 
+            }
+            free(foods); 
+        }
+        else{
+            prev = foods; 
+            foods = foods->next; 
+        }
+    }
+    return newfoods; 
 }
 // Display all the food
 void draw_food (Food *foods)
