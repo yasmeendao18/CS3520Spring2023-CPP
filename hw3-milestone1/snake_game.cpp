@@ -33,6 +33,7 @@
 
 int main(void){
     printf("thuoeou");
+    // call game function
     game();
     printf("tuenao");
     return(0);

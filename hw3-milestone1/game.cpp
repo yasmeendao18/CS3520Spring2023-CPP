@@ -61,10 +61,15 @@ void game(){
         switch(state){
 	case START: 
 	    initscr();
-	    mvprintw(10,20,"Welcome to the snake game.");
+        // game rules
+	    mvprintw(10,20,"Welcome to the snake game!");
             mvprintw(11,20, "Use the arrrow keys to move the snake and collect food.");
             mvprintw(12,20,"If the snake eats Os it grows and points increase.");
-            mvprintw(13,20,"Press s to start: ");
+            mvprintw(13,20, "If the snake eats Xs it shrinks and points decrease. ");
+            mvprintw(14,20, "For every 100 points earned, the speed of the snake increases."); 
+            mvprintw(15,20, "Press p to pause and q to quit at any time. "); 
+            mvprintw(16,20,"Press s to start: ");
+            // we chose to have the snake immediately die if the points reach below 0. 
 	    refresh(); 
             keypad(stdscr, TRUE); // making keys work
             curs_set(0); // hide cursor
@@ -122,8 +127,10 @@ void game(){
         case ALIVE:
             ch = get_char();
 
+             // check if food is at position
               if(food_exists(foods, snake->x, snake->y))
             {
+                // if the food is a O points increase and snake grows
                 if(food_type(foods, snake->x, snake->y)==Increase)
                 {
                     Snake* end = snake;
@@ -158,6 +165,7 @@ void game(){
             }
             
             /* Write your code here */
+            // pause and quit 
 	if(ch == 'q' || ch == 'Q') {
                 state = DEAD;
         }
@@ -165,6 +173,7 @@ void game(){
         	state = PAUSE;
         }
 
+        // move snake based on keys
         if(ch == LEFT || ch == RIGHT || ch == UP || ch == DOWN)
         {
             if((direction == RIGHT && ch != LEFT) 
