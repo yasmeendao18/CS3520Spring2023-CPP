@@ -101,7 +101,7 @@ Food* remove_eaten_food(Food* foods, int x, int y){
      newfoods = foods; 
     while(foods)
     {
-        if(x == foods->x || y == foods->y)
+        if(x == foods->x && y == foods->y)
         {
             if(prev == nullptr)
             {

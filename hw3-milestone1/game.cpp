@@ -50,6 +50,8 @@ void game(){
     const int height = 30; 
     const int width = 70;
     int direction = 1;
+    int points = 0;
+    int max_points = 0; 
     char ch;
 
     struct timespec timeret;
@@ -75,6 +77,10 @@ void game(){
             //Init board
             window = init_GameWindow(x_offset, y_offset, width, height);
             draw_Gamewindow(window);
+
+            //Print score
+            // noecho();
+            mvprintw(0,2, "Score: %d", points); 
 
             // Init snake
             snake = init_snake(x_offset + (width / 2), y_offset + (height / 2));
@@ -109,12 +115,21 @@ void game(){
                     while(end->next)
                         end = end->next;
                     end->next = create_tail(end->x, end->y); 
-                    //points+=20; 
+                    points+=20; 
+                    // check if speed is incremented
+                    if ((points > max_points) && (((points - max_points) / 100) > 0))
+                    {
+                        // update max_points 
+                        max_points = (points/100)*100;
+                        // //update speed
+                        //snake->speed = snake->speed * 1.5; 
+                        //timeret.tv_nsec = timeret.tv_nsec / snake->speed;
+                    }
                 }
                 else
                 {
                     remove_tail(snake); 
-                    //points-=10; 
+                    points-=10; 
                 }
                 // call remove food function
                 foods = remove_eaten_food(foods,snake->x,snake->y); 
@@ -122,7 +137,8 @@ void game(){
                 generate_points(&food_x, &food_y, width, height, x_offset, y_offset);
                 type = (rand() > RAND_MAX/2) ? Increase : Decrease; // Randomly deciding type of food
                 new_food = create_food(food_x, food_y, type);
-                add_new_food(foods,new_food); 
+                add_new_food(foods,new_food);
+                 
             }
             
             /* Write your code here */
@@ -143,6 +159,8 @@ void game(){
             draw_Gamewindow(window);
             draw_snake(snake);
             draw_food(foods);
+            // call score
+            mvprintw(0,2, "Score: %d", points); 
             break;
 
         case DEAD:
