@@ -2,10 +2,10 @@
 *
 * Filename: game.cpp
 * Description:
-* Author: Adeel Bhutta
-* Maintainer:
-* Created: Sat Sep 12 13:16:12 2022
-* Last-Updated: September 12 16:51 2022
+* Authors: Elizabeth Peters and Yasmeen Dao
+ * Maintainer:
+ * Created: Saturday Feb 18 2023
+ * Last-Updated: 2/22/23
 *
 */
 

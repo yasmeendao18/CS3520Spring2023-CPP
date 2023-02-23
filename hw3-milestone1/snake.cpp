@@ -2,10 +2,10 @@
  *
  * Filename: snake.cpp
  * Description:
- * Author: Adeel Bhutta
+ * Authors: Elizabeth Peters and Yasmeen Dao
  * Maintainer:
- * Created: Sun Sep 13 9:12:30 2022
- * Last-Updated: September 13 22:40 2022
+ * Created: Saturday Feb 18 2023
+ * Last-Updated: 2/22/23
  *
  */
 
