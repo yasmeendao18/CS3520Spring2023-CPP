@@ -2,10 +2,10 @@
 *
 * Filename: food.cpp
 * Description:
-* Author: Adeel Bhutta
-* Maintainer:
-* Created: Sat Sep 12 13:16:12 2022
-* Last-Updated: September 12 16:51 2022
+* Authors: Elizabeth Peters and Yasmeen Dao
+ * Maintainer:
+ * Created: Saturday Feb 18 2023
+ * Last-Updated: 2/22/23
 *
 */
 
@@ -73,13 +73,51 @@ void add_new_food(Food* foods, Food* new_food){
 
 enum Type food_type(Food* foods, int x, int y){
     //Implement the code to return the type of the food 
-    //present at position (x, y)	
+    //present at position (x, y)
+    Food* temp = foods;
+    while(temp)
+    {
+        if(temp->x == x && temp->y == y)
+        {
+            if(temp-> type == 'O')
+            {
+                return Increase; 
+            }
+            else
+            {
+                return Decrease; 
+            }
+        }   
+        temp = temp->next;
+    }
 	
 }
 Food* remove_eaten_food(Food* foods, int x, int y){
 	//Implement the code to remove food at position (x,y).
 	//Create a new linked list of type Food containing only the
 	//needed food and return this new list
+     Food* prev = nullptr; 
+     Food* newfoods = (Food*)malloc(sizeof(newfoods));
+     newfoods = foods; 
+    while(foods)
+    {
+        if(x == foods->x && y == foods->y)
+        {
+            if(prev == nullptr)
+            {
+                newfoods = foods->next; 
+            }
+            else{
+                prev->next = foods->next; 
+            }
+            free(foods); 
+        }
+        else{
+            prev = foods; 
+            foods = foods->next; 
+        }
+    }
+    return newfoods; 
 }
 // Display all the food
 void draw_food (Food *foods)

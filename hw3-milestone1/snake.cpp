@@ -2,10 +2,10 @@
  *
  * Filename: snake.cpp
  * Description:
- * Author: Adeel Bhutta
+ * Authors: Elizabeth Peters and Yasmeen Dao
  * Maintainer:
- * Created: Sun Sep 13 9:12:30 2022
- * Last-Updated: September 13 22:40 2022
+ * Created: Saturday Feb 18 2023
+ * Last-Updated: 2/22/23
  *
  */
 
@@ -66,25 +66,38 @@ Snake* move_snake(Snake* snake, int direction){
   Snake* new_head = (Snake*)malloc(sizeof(new_head));
 
   // Set the new head to have the x and y coordinates as the existing head of the snake
-  
+  new_head->x = snake->x; 
+  new_head->y = snake->y; 
+
   switch(direction) { 
     case UP:
         //Write code to make the new head go up by 1 cell
+        new_head->y =snake->y-1;
       break;
     case DOWN:
         //Write code to make the new head go down by 1 cell
+        new_head->y =snake->y+1;
       break;
     case RIGHT:
         //Write code to make the new head go right by 1 cell
+        new_head->x =snake->x+1;
       break;
     case LEFT:
         //Write code to make the new head go left by 1 cell
+        new_head->x =snake->x-1;
       break;
   }
   
   //Set new head as the new head of the entire snake
   //Add all the features (color and symbol) to the new cell
   // Delete the tail from the snake: HINT - there is a remove tail function below
+
+  new_head->next = snake;
+  new_head->color[0] = 0;
+  new_head->color[1] = 0;
+  new_head->color[2] = 255;
+  new_head->symbol = '#';
+  remove_tail(new_head);
 
   return new_head;
 }

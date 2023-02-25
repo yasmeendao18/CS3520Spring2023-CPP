@@ -2,10 +2,10 @@
 *
 * Filename: snake_game.cpp
 * Description:
-* Author: Adeel Bhutta
+* Authors: Elizabeth Peters and Yasmeen Dao
 * Maintainer:
-* Created: Sat Sep 12 13:16:12 2022
-* Last-Updated: September 12 16:51 2022
+* Created: Saturday Feb 18 2023
+* Last-Updated: 2/22/23
 *
 */
 
@@ -33,6 +33,7 @@
 
 int main(void){
     printf("thuoeou");
+    // call game function
     game();
     printf("tuenao");
     return(0);

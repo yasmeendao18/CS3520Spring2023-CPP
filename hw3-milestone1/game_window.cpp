@@ -2,10 +2,10 @@
  *
  * Filename: game_window.cpp
  * Description:
- * Author: Adeel Bhutta
+ * Authors: Elizabeth Peters and Yasmeen Dao
  * Maintainer:
- * Created: Tue Sep  6 14:10:06 2022
- * Last-Updated: June 4 11:00 2022
+ * Created: Saturday Feb 18 2023
+ * Last-Updated: 2/22/23
  * Keywords:
  * Compatibility:
  *
@@ -34,6 +34,8 @@
 #include <cstdlib>
 #include <ncurses.h>
 #include "game_window.hpp"
+
+
 
 gamewindow_t *init_GameWindow(int upper_left_x, int upper_left_y, int width, int height)
 {
