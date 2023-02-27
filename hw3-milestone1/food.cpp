@@ -39,11 +39,13 @@ Food* create_food(int x, int y, enum Type type){
      
     new_food->x = x;
     new_food->y = y;
+    
     if (type == Increase){
-        new_food->type = 'O';
+        new_food-> type = (rand() > RAND_MAX/2) ? 'O' : '+'; // Randomly deciding type of food;
+        
     }
     else if(type == Decrease){
-        new_food->type = 'X';
+        new_food->type = (rand() > RAND_MAX/2) ? 'X' : '-'; // Randomly deciding type of food;;
     }
     new_food->next = NULL;
 
@@ -79,7 +81,7 @@ enum Type food_type(Food* foods, int x, int y){
     {
         if(temp->x == x && temp->y == y)
         {
-            if(temp-> type == 'O')
+            if(temp-> type == 'O' || temp-> type == '+')
             {
                 return Increase; 
             }
@@ -89,7 +91,7 @@ enum Type food_type(Food* foods, int x, int y){
             }
         }   
         temp = temp->next;
-    }
+    }   
 	
 }
 Food* remove_eaten_food(Food* foods, int x, int y){
