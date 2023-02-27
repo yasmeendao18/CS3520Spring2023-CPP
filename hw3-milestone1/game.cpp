@@ -40,6 +40,25 @@ void generate_points(int *food_x, int *food_y, int width, int height, int x_offs
     *food_x = rand() % width + x_offset+1;
     *food_y = rand() % height + y_offset+1;
 }
+bool obstacles_exists_size(Obstacles *obstacles,int *obstacles_x, int *obstacles_y, int size)
+{
+    bool exists = false; 
+    while (!exists)
+    {
+        exists = exists && obstacles_exists(obstacles,&obstacles_x, &obstacles_y); 
+    }
+    return exists; 
+}
+
+bool not_snake(int snake_x, int snake_y, obstacles_x, obstacles_y)
+{
+    // if(!)
+    // {
+
+    // }
+    return true; 
+}
+    
 void game()
 {
     enum State state = START; // Set the initial state
@@ -54,6 +73,7 @@ void game()
     int direction = rand() % 4;
     int points = 0;
     char ch;
+    int size = 3;
     int lives = 3; 
 
     struct timespec timeret;
@@ -110,8 +130,27 @@ void game()
                 // Init snake
                 snake = init_snake(x_offset + (width / 2), y_offset + (height / 2));
                 
+                       //Init obstacles
+                int obstacles_x, obstacles_y, i;
+
+                //Generate obstacles
+                generate_points(&obstacles_x, &obstacles_y, width-size, height, x_offset, y_offset);
+                obstacles = create_obstacles(obstacles_x, obstacles_y);
+                for(i = 1; i < 10; i++){
+                    generate_points(&obstacles_x, &obstacles_y, width-size, height, x_offset, y_offset);
+                    while (obstacles_exists_size(obstacles,obstacles_x, obstacles_y, size))
+                        generate_points(&obstacles_x, &obstacles_y, width-size, height, x_offset, y_offset);
+
+                    for(int j = 1; j < size; j++)
+                    {
+                        new_obstacles = create_obstacles(obstacles_x, obstacles_y);
+                        add_new_obstacles(obstacles, new_obstacles);
+                    }
+                     
+                }
+
                 // Init foods
-                int food_x, food_y, i;
+                int food_x, food_y;
                 enum Type type;
 
                 //Generate 10 foods
@@ -120,26 +159,13 @@ void game()
                 foods = create_food(food_x, food_y, type);
                 for(i = 1; i < 10; i++){
                     generate_points(&food_x, &food_y, width, height, x_offset, y_offset);
-                    while (food_exists(foods,food_x, food_y))
+                    while (food_exists(foods,food_x, food_y) && obstacles_exists(obstacles,obstacles_x, obstacles_y))
                         generate_points(&food_x, &food_y, width, height, x_offset, y_offset);
                     type = (rand() > RAND_MAX/2) ? Increase : Decrease;
                     new_food = create_food(food_x, food_y, type);
                     add_new_food(foods, new_food);
                 }
 
-                // Init foods
-                int obstacles_x, obstacles_y;
-
-                //Generate obstacles
-                generate_points(&obstacles_x, &obstacles_y, width, height, x_offset, y_offset);
-                obstacles = create_obstacles(obstacles_x, obstacles_y);
-                for(i = 1; i < 10; i++){
-                    generate_points(&obstacles_x, &obstacles_y, width, height, x_offset, y_offset);
-                    while (obstacles_exists(obstacles,obstacles_x, obstacles_y))
-                        generate_points(&obstacles_x, &obstacles_y, width, height, x_offset, y_offset);
-                    new_obstacles = create_obstacles(obstacles_x, obstacles_y);
-                    add_new_obstacles(obstacles, new_obstacles);
-                }
 
                 state = ALIVE;
                 break;
@@ -147,7 +173,7 @@ void game()
             case ALIVE:
                 ch = get_char();
 
-                if(eat_itself(snake))
+                if(eat_itself(snake) || obstacles_exists(obstacles,snake->x, snake->y))
                 {
                     state = DEAD;
                     break; 
@@ -287,14 +313,15 @@ void game()
     }
     //exiting
     endwin();
-    state = EXIT;
+    //state = EXIT;
     while(snake->next){
         snake = remove_tail(snake);
     }
-    Food* temp;
+    Food* temp = foods;
     while(temp) {
         temp = foods->next;
         free(foods);
+        foods = temp; 
     }
     free(snake);
 }
