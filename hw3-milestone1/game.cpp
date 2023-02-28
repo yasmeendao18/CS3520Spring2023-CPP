@@ -28,6 +28,7 @@
 */
 #include <ncurses.h>
 #include <cstdio>
+#include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include "snake.hpp"
@@ -36,6 +37,12 @@
 #include "key.hpp"
 #include "game.hpp"
 #include "obstacles.hpp"
+#include <bitset>
+#include <iomanip>
+#include <sstream>
+#include <fstream>
+#include <limits.h>
+using namespace std;
 void generate_points(int *food_x, int *food_y, int width, int height, int x_offset, int y_offset){
     *food_x = rand() % width + x_offset+1;
     *food_y = rand() % height + y_offset+1;
@@ -387,11 +394,8 @@ void game()
                         }
                 
                     }
-                // if lives (go back to game)
-                // else quit
-                // save score to file
-                // dead screen
                 }
+
                 break;
         }// end of cases
         refresh();
@@ -399,7 +403,68 @@ void game()
     }
     //exiting
     endwin();
-    //state = EXIT;
+    // open file
+
+    ifstream infile("./saves/save_best_10.game");
+    //fstream file_name; file_name.open("in.txt", ios:in);
+    if(!infile){
+    cout<<"can't open the in file"<<endl;
+    }
+
+    // read into array of 10
+    int array[10]; 
+    string line;  
+    int i = 0;
+    while(getline(infile, line)){
+        array[i] = stoi(line); 
+        i++; 
+    }
+    for(int j = i; j<10; j++)
+    {
+        array[j] = INT_MIN; 
+    }
+
+    // array[i] = points; 
+    
+    i = 9; 
+    //insert score into array
+    while (i >= 0 && points > array[i] ){
+        i--; 
+    }
+    i++; 
+    int mover1; 
+    int mover2 = points; 
+    for (int j = i; j < 10; j++)
+    {
+        mover1 = array[j]; 
+        array[j] = mover2; 
+        mover2 = mover1; 
+    }
+
+    ofstream outfile("./saves/save_best_10.game"); //open or overwrite
+
+    if(!outfile)
+    {   
+        cout<<"can't open the out file"<<endl;
+    }
+
+    for(int j = 0; j < 10; j++)
+    {
+        if(array[j] != INT_MIN)
+        {
+            outfile << array[j] << endl;
+        }
+    }
+
+    
+
+    //  read info from file into storage
+    //  check if score is > min score
+    // if (points > points)
+    // if it is place score into right location in the structure
+    // read structure back into file
+                
+    state = EXIT;
     while(snake->next){
         snake = remove_tail(snake);
     }
