@@ -44,8 +44,8 @@
 #include <limits.h>
 using namespace std;
 void generate_points(int *food_x, int *food_y, int width, int height, int x_offset, int y_offset){
-    *food_x = rand() % width + x_offset+1;
-    *food_y = rand() % height + y_offset+1;
+    *food_x = rand() % (width-2) + x_offset+1;
+    *food_y = rand() % (height-2) + y_offset+1;
 }
 bool obstacles_exists_size(Obstacles *obstacles,int obstacles_x, int obstacles_y, int size)
 {
@@ -118,8 +118,8 @@ void game()
                 mvprintw(15,20, "Press p to pause and q to quit at any time. ");
 		mvprintw(16,20, "Choose a mode!");
 		mvprintw(17,20, "To choose easy, press e!");
-		mvprintw(18,20, "To choose medium, press m!");
-		mvprintw(19,20, "To choose hard, press h!");
+		mvprintw(18,20, "To choose hard, press h!");
+		mvprintw(19,20, "To choose advanced, press a!");
 		mvprintw(20,20, "If you do not choose a mode the default is easy"); 
                 mvprintw(21,20,"Press s to start: ");
                 // we chose to have the snake immediately die if the points reach below 0. 
@@ -129,20 +129,20 @@ void game()
                 ch = getch();
 		if(ch == 'e') {
                 	mode = EASY;
-                } else if( ch == 'm'){
-                        mode = MEDIUM;
-                } else if(ch == 'h'){
+                } else if( ch == 'h'){
                         mode = HARD;
+                } else if(ch == 'a'){
+                        mode = ADVANCED;
                 }
                 while(ch != 's')
                 {
                     ch = getch();
 		    if(ch == 'e') {
 			mode = EASY;
-		    } else if( ch == 'm'){
-			mode = MEDIUM;
-		    } else if(ch == 'h'){
+		    } else if( ch == 'h'){
 			mode = HARD;
+		    } else if(ch == 'a'){
+			mode = ADVANCED;
 		    }
                 }
 		//Set mode settings
@@ -151,12 +151,12 @@ void game()
 			num_foods = 10;
 			base_wait_time = 999999999/4;
 		}
-		if(mode ==MEDIUM){
+		if(mode ==HARD){
 			num_obstacles = 6;
 			num_foods = 15;
                         base_wait_time = 999999999/8;
 		}
-		if(mode == HARD){
+		if(mode == ADVANCED){
 			num_obstacles = 10;
 			num_foods = 20;
                         base_wait_time = 999999999/16;
