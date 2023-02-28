@@ -40,28 +40,38 @@ void generate_points(int *food_x, int *food_y, int width, int height, int x_offs
     *food_x = rand() % width + x_offset+1;
     *food_y = rand() % height + y_offset+1;
 }
-bool obstacles_exists_size(Obstacles *obstacles,int *obstacles_x, int *obstacles_y, int size)
+bool obstacles_exists_size(Obstacles *obstacles,int obstacles_x, int obstacles_y, int size)
 {
+    int i = 0;
     bool exists = false; 
-    while (!exists)
+    while (!exists && i < size)
     {
-        exists = exists && obstacles_exists(obstacles,&obstacles_x, &obstacles_y); 
+        exists = exists || obstacles_exists(obstacles,obstacles_x+i, obstacles_y); 
+	i++;
     }
     return exists; 
 }
 
-bool not_snake(int snake_x, int snake_y, obstacles_x, obstacles_y)
+bool ontop_of_snake(int snake_x, int snake_y, int obstacles_x, int obstacles_y, int size)
 {
-    // if(!)
-    // {
-
-    // }
-    return true; 
+    for(int i = 0; i<size; i++){
+    	if(obstacles_y == snake_y || obstacles_y == snake_y-1 || obstacles_y == snake_y+1 || obstacles_y == snake_y+2 || obstacles_y == snake_y-2) 	
+	{
+	    if(obstacles_x == snake_x+1 || obstacles_x == snake_x-1 || obstacles_x == snake_x ||obstacles_x == snake_x-2){
+		return true;
+	    }
+	}
+    }
+    return false; 
+}
+bool outside_limits(int min_x, int max_x, int min_y, int max_y, int curr_x, int curr_y){
+    return curr_x <= min_x || curr_x >= max_x ||  curr_y <=  min_y || curr_y >= max_y;
 }
     
 void game()
 {
     enum State state = START; // Set the initial state
+    enum Mode mode = EASY;
     static int x_max, y_max; //Max screen size variables
     static int x_offset, y_offset; // distance between the top left corner of your screen and the start of the board
     gamewindow_t *window; // Name of the board
@@ -71,11 +81,17 @@ void game()
     const int height = 30; 
     const int width = 70;
     int direction = rand() % 4;
+    if(direction == 1)
+    {
+	direction = 2;
+    }
     int points = 0;
     char ch;
     int size = 3;
     int lives = 3; 
-
+    int num_obstacles;
+    int num_foods;
+    long base_wait_time;
     struct timespec timeret;
     timeret.tv_sec = 0;
     timeret.tv_nsec = 999999999/4;
@@ -92,22 +108,66 @@ void game()
                 mvprintw(12,20,"If the snake eats Os it grows and points increase.");
                 mvprintw(13,20, "If the snake eats Xs it shrinks and points decrease. ");
                 mvprintw(14,20, "For every 100 points earned, the speed of the snake increases."); 
-                mvprintw(15,20, "Press p to pause and q to quit at any time. "); 
-                mvprintw(16,20,"Press s to start: ");
+                mvprintw(15,20, "Press p to pause and q to quit at any time. ");
+		mvprintw(16,20, "Choose a mode!");
+		mvprintw(17,20, "To choose easy, press e!");
+		mvprintw(18,20, "To choose medium, press m!");
+		mvprintw(19,20, "To choose hard, press h!");
+		mvprintw(20,20, "If you do not choose a mode the default is easy"); 
+                mvprintw(21,20,"Press s to start: ");
                 // we chose to have the snake immediately die if the points reach below 0. 
                 refresh(); 
                 keypad(stdscr, TRUE); // making keys work
                 curs_set(0); // hide cursor
                 ch = getch();
+		if(ch == 'e') {
+                	mode = EASY;
+                } else if( ch == 'm'){
+                        mode = MEDIUM;
+                } else if(ch == 'h'){
+                        mode = HARD;
+                }
                 while(ch != 's')
                 {
                     ch = getch();
+		    if(ch == 'e') {
+			mode = EASY;
+		    } else if( ch == 'm'){
+			mode = MEDIUM;
+		    } else if(ch == 'h'){
+			mode = HARD;
+		    }
                 }
+		//Set mode settings
+		if(mode ==EASY){
+			num_obstacles = 3;
+			num_foods = 10;
+			base_wait_time = 999999999/4;
+		}
+		if(mode ==MEDIUM){
+			num_obstacles = 6;
+			num_foods = 15;
+                        base_wait_time = 999999999/8;
+		}
+		if(mode == HARD){
+			num_obstacles = 10;
+			num_foods = 20;
+                        base_wait_time = 999999999/16;
+		}
+		timeret.tv_nsec = base_wait_time;
                 state = INIT;
                 clear();
                 break;	
             case INIT:
                 start_color();
+		//border color
+		init_pair(1, COLOR_YELLOW, COLOR_GREEN);
+		//snake color
+		init_pair(2, COLOR_RED, COLOR_GREEN);
+		//obstacles
+		init_pair(3, COLOR_BLUE, COLOR_GREEN);
+		//Food
+		init_pair(4, COLOR_CYAN, COLOR_WHITE);
                 nodelay(stdscr, TRUE); //Dont wait for char
                 noecho(); // Don't echo input chars
                 getmaxyx(stdscr, y_max, x_max);
@@ -121,8 +181,9 @@ void game()
                 
                 //Init board
                 window = init_GameWindow(x_offset, y_offset, width, height);
+		attron(COLOR_PAIR(1));
                 draw_Gamewindow(window);
-
+		attroff(COLOR_PAIR(1));
                 //Print score
                 mvprintw(0,2, "Score: %d", points); 
                 mvprintw(0,3, "Lives Left: %d", lives);
@@ -134,16 +195,23 @@ void game()
                 int obstacles_x, obstacles_y, i;
 
                 //Generate obstacles
+                size = rand() % (width/2) +1;
                 generate_points(&obstacles_x, &obstacles_y, width-size, height, x_offset, y_offset);
                 obstacles = create_obstacles(obstacles_x, obstacles_y);
-                for(i = 1; i < 10; i++){
+		for(int j = 1; j < size; j++)
+                {
+                        new_obstacles = create_obstacles(obstacles_x+j, obstacles_y);
+                        add_new_obstacles(obstacles, new_obstacles);
+                 }
+                for(i = 1; i < num_obstacles; i++){
+		    size = rand() % (width/2) +1;
                     generate_points(&obstacles_x, &obstacles_y, width-size, height, x_offset, y_offset);
-                    while (obstacles_exists_size(obstacles,obstacles_x, obstacles_y, size))
+                    while (obstacles_exists_size(obstacles,obstacles_x, obstacles_y, size)|| ontop_of_snake(snake->x, snake->y, obstacles_x, obstacles_y, size))
                         generate_points(&obstacles_x, &obstacles_y, width-size, height, x_offset, y_offset);
 
-                    for(int j = 1; j < size; j++)
+                    for(int j = 0; j < size; j++)
                     {
-                        new_obstacles = create_obstacles(obstacles_x, obstacles_y);
+                        new_obstacles = create_obstacles(obstacles_x+j, obstacles_y);
                         add_new_obstacles(obstacles, new_obstacles);
                     }
                      
@@ -157,7 +225,7 @@ void game()
                 generate_points(&food_x, &food_y, width, height, x_offset, y_offset);
                 type = (rand() > RAND_MAX/2) ? Increase : Decrease; // Randomly deciding type of food
                 foods = create_food(food_x, food_y, type);
-                for(i = 1; i < 10; i++){
+                for(i = 1; i < num_foods; i++){
                     generate_points(&food_x, &food_y, width, height, x_offset, y_offset);
                     while (food_exists(foods,food_x, food_y) && obstacles_exists(obstacles,obstacles_x, obstacles_y))
                         generate_points(&food_x, &food_y, width, height, x_offset, y_offset);
@@ -173,7 +241,8 @@ void game()
             case ALIVE:
                 ch = get_char();
 
-                if(eat_itself(snake) || obstacles_exists(obstacles,snake->x, snake->y))
+                if(eat_itself(snake) || obstacles_exists(obstacles,snake->x, snake->y) ||
+			outside_limits(x_offset, x_offset+width, y_offset, y_offset+height, snake->x, snake->y))
                 {
                     state = DEAD;
                     break; 
@@ -203,7 +272,7 @@ void game()
                         timeret.tv_nsec = 999999999/4;  
                     }else {
                         float speed = snake->speed *1.5;  
-                        timeret.tv_nsec = (999999999/4) / speed;
+                        timeret.tv_nsec = base_wait_time / speed;
                     }
 
                     // call remove food function
@@ -239,10 +308,18 @@ void game()
                 // Draw everything on the screen
                 clear();
                 mvprintw(20,20, "Key entered: %c", ch);
+		attron(COLOR_PAIR(1));
                 draw_Gamewindow(window);
+		attroff(COLOR_PAIR(1));
+		attron(COLOR_PAIR(2));
                 draw_snake(snake);
+		attroff(COLOR_PAIR(2));
+		attron(COLOR_PAIR(4));
                 draw_food(foods);
+		attroff(COLOR_PAIR(4));
+		attron(COLOR_PAIR(3));
                 draw_obstacles(obstacles);
+		attroff(COLOR_PAIR(3));
                 // call score
                 mvprintw(0,2, "Score: %d", points); 
                 // call lives
@@ -276,7 +353,16 @@ void game()
                         ch = getch();
                         if(ch == 'e')
                         {
-                            state = INIT;
+			    while(snake->next){
+				snake = remove_tail(snake);
+			    }
+			    free(snake);
+			    snake = init_snake(x_offset + (width / 2), y_offset + (height / 2));
+                            state = ALIVE;
+			    if(direction == 1)
+    			    {
+				direction = 2;
+			    }
                             break;
                         }
                         else if (ch == 'q')

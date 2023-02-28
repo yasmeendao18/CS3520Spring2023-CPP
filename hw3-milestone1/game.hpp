@@ -29,3 +29,4 @@
 void game();
 void generate_points(int *food_x, int *food_y, int width, int height, int x_offset, int y_offset);
 enum State{START, INIT, ALIVE, PAUSE,DEAD, EXIT};
+enum Mode{EASY, MEDIUM, HARD};
