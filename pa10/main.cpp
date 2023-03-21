@@ -20,6 +20,7 @@ public:
   Employee& set_salary(int sal) {(*this).salary=sal; return *this;}
   //get salary
   int get_salary() {return salary;} //in-line
+  string get_groupid() {return group_id;} //in-line
   void output() const {cout<<salary<<endl;} //-inline
 
 // friend
@@ -52,6 +53,8 @@ public:
   friend Group operator+(Group &a, Group &b);
   friend Group operator-(Group &a, const int &num);
   friend vector <Group> operator/(Group &a, int num);
+  friend ostream & operator << (ostream &out, const Group &c);
+  friend istream & operator >> (istream &in,  Group &c);
 
 };
 
@@ -68,7 +71,6 @@ Group operator+(Group &a, Group &b){
   for(int i= 0; i< a.get_size(); i++)
     {
       newGroup.addEmployee(a.people[i]);
-      
     }
   
   for(int i= 0; i< b.get_size(); i++)
@@ -91,40 +93,65 @@ Group operator+(Group &a, Group &b){
   return a;
 }
 
-// overload /
-// vector <Group> operator/(Group &a,int num){
-// Group split;
-//  for(int i= 0; i< a.get_size(); i++)
-//   {
-//     split.addEmployee(a.people[i]);
-    
-//   }
-// split = a.people[i]/2; 
-//   // return vector of new group
-// return v; 
-// }
-
+//overload /
+vector <Group> operator/(Group &a,int num){
+vector <Group> newGroup;
+for(int j = 0; j < num; j++){
+newGroup.push_back(Group()); 
+int new_id;
+string new_name;
+cout << "Enter new groupid "<< endl;
+cin >> new_id;
+cout << "Enter new group name "<<endl;
+cin >> new_name; 
+newGroup[j].set_name(new_name);
+newGroup[j].set_unique_gnum(new_id);
+}
+  
+int added = 0;
+while(added < a.people.size())
+{
+  for (int i =0; i< newGroup.size(); i++)
+    {
+      if(added < a.people.size())
+      {
+        newGroup[i].addEmployee(a.people[added]);
+        //newGroup[i].people.back().set_groupid(newGroup[i].get_unique_gnum());
+        added++;
+      }
+    }
+}
+  return newGroup; 
+}
 
 // cout and cin
-std::ostream& operator<< (std::ostream& out, const Employee& value ){
-out<<value.name<<"="<<value.email<<endl;
+std::ostream& operator<< (std::ostream& out, const Employee& c ){
+out<<c.name<<endl;
+// out<<c.name<<":"<<c.unique_gnum<<endl;
 return out;
 }
-std::istream& operator>> (std::istream& in, Employee& value ){
-in >> value.name >> value.email;
+std::istream& operator>> (std::istream& in, Employee& c ){
+cout<<"Enter name for employee: ";
+in >> c.name; //>> value.email;
 return in;
 }
 
 int main() {
-  // create two groups
   Employee anne;
   Employee dave;
   Employee fred;
+  Employee jack;
+  Employee sam;
+  Employee bob;
+  Employee pam;
+  Employee sally;
+  Employee mike;
+  // create two groups
   Group a;
   Group b; 
   anne.set_name("anne");
   anne.set_email("anne@gmail");
-  anne.set_desig("code");
+  anne.set_desig("coder");
   anne.set_groupid("abcd");
   anne.set_salary(100);
   dave.set_name("dave");
@@ -134,15 +161,47 @@ int main() {
   dave.set_salary(200);
   a.addEmployee(anne); 
   a.addEmployee(fred); 
+  a.addEmployee(jack); 
+  a.addEmployee(pam); 
   b.addEmployee(dave); 
+  b.addEmployee(bob);
+  b.addEmployee(sally);
+  b.addEmployee(mike);
+  b.addEmployee(sam);
+  cout<<"Example for + operation:" <<endl;
   cout << "group a size is " << a.get_size()<<endl; 
   cout << "group b size is " << b.get_size()<<endl;
   // test + operation
   Group c = a + b; 
   cout << "added groups have size of " << c.get_size()<<endl;
   // test - operation
+  cout << endl;
+  cout<<"Example for - operation: " <<endl;
   cout << "removing 1 employee from group a..."<<endl;
   a = a-1;
   cout<<"size of group a is now " << a.get_size()<<endl;
 
+  cout<<endl;
+
+  cout<<"Example for split group" << endl;
+  int num_divide;
+  cout<<"enter number to divide by ";
+  // choose 2
+  cin>> num_divide;
+  vector<Group> sp = a/num_divide; 
+  // for (auto s: sp)
+  // {
+  //   cout<<s<<endl;
+  // }
+  
+  cout<<endl;
+  
+  cout<<"Example for cout and cin:" <<endl;
+  Employee e;
+  cin >> e;
+  cout << "Employee name is: ";
+  cout << e;
+  a.addEmployee(e); 
+  cout<<e<<"is in group a";
+  
 }
