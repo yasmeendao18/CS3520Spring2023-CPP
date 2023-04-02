@@ -32,7 +32,7 @@ public:
 ostream &operator<<(ostream &out, const Person &per) //add const before Person for const reference to the Person
 {
   out << per.firstName << " " << per.lastName << " " << per.age << " years old" << endl;
-  return out; // add return
+  return out; // add return statement
 }
 void Person::setValues(string last, string first, int age)
 {
