@@ -1,8 +1,9 @@
 // Debug T-1
-// Function template subtracts objects from each other. The function works on any object which has '-' opertor defined.
+// Function template adds objects from each other. The function works on any object which has '+' opertor defined.
 // Check for possible compiler errors, logical errors and rectify them
 // Re-factor the code by adding few comments (make it readable) and
 // provide list of most important fixes (in comments)
+// "used addition"
 
 #include <iostream>
 #include <string>
