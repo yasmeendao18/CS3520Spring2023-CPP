@@ -20,8 +20,8 @@ protected:
 public:
   Organism(): currGame(nullptr), x(0), y(0), timeTillBreed(0), timeStepCount(0){}
   Organism(Game* currGame, int x, int y);
-  virtual void breed() = 0;
-  virtual void move();
+  virtual void breed()  = 0;
+  virtual void move() ;
   virtual int getType() = 0;
   virtual bool starve() { return false; }
 

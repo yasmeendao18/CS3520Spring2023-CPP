@@ -15,7 +15,7 @@ class Worker;
 
 // initiallizations
 const int SIZE = 20;
-const int iterations = 500;
+const int iterations = 800;
 
 const int init_doodle = 15;
 const int init_ant = 50;
@@ -50,7 +50,7 @@ public:
   Game();
   void startGame();
   void takeTimeStep();
-  void printsimulation() const;
+  void printSimulation() const;
 
 };
 

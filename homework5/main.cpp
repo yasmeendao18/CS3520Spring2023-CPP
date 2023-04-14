@@ -107,7 +107,7 @@ void Game::takeTimeStep(){
 }
 
 // print ASCII characters
-void Game::printsimulation() const 
+void Game::printSimulation() const 
 {
   for (int i = 0; i < SIZE; i++)
   {
@@ -315,6 +315,16 @@ public:
   int getType()override{ return WORKER; }
 };
 
+void Worker::breed() {
+  vector<int> moves = moves_to_empty(x, y);
+  if (moves.size() == 0) return; // no empty cells to breed
+  timeTillBreed = ant_time_breed;
+  int move = moves[rand() % moves.size()];
+  int new_x = x, new_y = y;
+  getCoordinate(new_x, new_y, move);
+  //currGame->simulation[new_x][new_y] = new Ant(currGame, new_x, new_y);
+}
+
 int main()
 {
   Game g;
@@ -324,7 +334,7 @@ int main()
  for(int i = 0; i < iterations; i++)
  {
     g.takeTimeStep();
-    g.printsimulation();
+    g.printSimulation();
     cout<<endl;
   }
  
