@@ -280,6 +280,7 @@ public:
   void breed()override;
   void move()override;
   int getType() override { return QUEEN; }
+//   OrganismType getType() const override { return OrganismType::QUEEN; }
 
 };
 
