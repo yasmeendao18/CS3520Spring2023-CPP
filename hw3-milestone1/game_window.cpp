@@ -83,6 +83,16 @@ void draw_Gamewindow(gamewindow_t *r)
 		 row_counter++) {
 		mvprintw(r->upper_left_y + r->height, row_counter, "%c", r->draw_char);
 	}
+	//Draw Middle of room
+	for (column_counter = r->upper_left_y+1;
+                 column_counter <(r->upper_left_y + r->height);
+                 column_counter++) {
+		for (row_counter = r->upper_left_x+1;
+                 row_counter < (r->upper_left_x + r->width);
+                 row_counter++) {
+                	mvprintw(column_counter, row_counter, "%c", ' ');
+        	}
+        }
 }
 
 gamewindow_t *changeGameWindow(int upper_left_x, int upper_left_y, int width, int height, gamewindow_t *r)

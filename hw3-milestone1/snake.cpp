@@ -121,5 +121,29 @@ void draw_snake(Snake* snake){
 
 // checks if it eats itself, if it does, then return true
 bool eat_itself(Snake* snake){
-    // TODO for Milestone 2 only
+  int x = snake->x;
+  int y = snake->y;
+  snake = snake->next; 
+  while(snake)
+  {
+    if (x == snake->x && y == snake->y)
+    {
+      return true; 
+    }
+    else
+    {
+      snake = snake->next; 
+    }
+  }
+  return false;
+}
+
+int length(Snake* snake){
+  int i = 0; 
+  while(snake)
+  {
+    snake = snake->next;
+    i++; 
+  }  
+  return i; 
 }
